@@ -11,6 +11,8 @@ import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
+    SidebarGroupContent,
+    SidebarGroupLabel,
     SidebarHeader,
     SidebarMenu,
     SidebarMenuButton,
@@ -99,19 +101,19 @@ export function AppSidebar() {
                 {/* Grouped Items */}
                 {sidebarGroups.map((group) => (
                     <SidebarMenu key={group.title}>
-                        <span className="px-4 py-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
-                            {group.title}
-                        </span>
-                        {group.items.map((item) => (
-                            <SidebarMenuItem key={item.title}>
-                                <SidebarMenuButton asChild>
-                                    <a href={item.url}>
-                                        <item.icon />
-                                        <span>{item.title}</span>
-                                    </a>
-                                </SidebarMenuButton>
-                            </SidebarMenuItem>
-                        ))}
+                        <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
+                        <SidebarGroupContent>
+                            {group.items.map((item) => (
+                                <SidebarMenuItem key={item.title}>
+                                    <SidebarMenuButton asChild>
+                                        <a href={item.url}>
+                                            <item.icon />
+                                            <span>{item.title}</span>
+                                        </a>
+                                    </SidebarMenuButton>
+                                </SidebarMenuItem>
+                            ))}
+                        </SidebarGroupContent>
                     </SidebarMenu>
                 ))}
             </SidebarContent>
