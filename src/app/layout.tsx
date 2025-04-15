@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import Sidebar from "@/components/layout/Sidebar";
-import TopBar from "@/components/layout/TopBar";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
 
 const inter = Inter({
   variable: "--font-inter-sans",
@@ -14,7 +14,7 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: "Cora · AI management workers for your properties",
   description: "AI at the service of property managers, ...",
-  authors: [{name: "...", url: "..."}],
+  authors: [{ name: "...", url: "..." }],
   keywords: [],
   robots: "",
   category: "technology",
@@ -33,19 +33,13 @@ export default function RootLayout({
           inter.variable,
         )}
       >
-        <div className="flex h-screen overflow-hidden">
-          {/* Sidebar */}
-          <Sidebar />
-
-          {/* Main Content Area */}
-          <div className="flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-            {/* Top Bar */}
-            <TopBar />
-
-            {/* Page Content */}
-            <main className="flex-1 p-4 md:p-6 lg:p-8">{children}</main>
-          </div>
-        </div>
+        <SidebarProvider>
+          <AppSidebar />
+          <main>
+            <SidebarTrigger />
+            {children}
+          </main>
+        </SidebarProvider>
       </body>
     </html>
   );
