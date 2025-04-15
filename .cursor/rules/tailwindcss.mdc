@@ -1,0 +1,35 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts,**/*.css
+alwaysApply: false
+---
+**Objective:** Ensure generated Tailwind CSS code follows utility-first best practices, maintains consistency, and leverages the configuration effectively.
+
+**Core Principles:**
+
+*   **Utility-First:** Apply styles directly using utility classes in the HTML/JSX. AVOID writing custom CSS classes for simple styling tasks.
+*   **Configuration Driven:** Rely on the `tailwind.config.ts` file for defining design tokens (colors, spacing, fonts) to ensure consistency.
+*   **Readability:** Keep class lists organized and readable.
+
+**Rules:**
+
+1.  **Utility Class Usage:**
+    *   MUST apply styles primarily through Tailwind utility classes.
+    *   AVOID creating component-specific CSS files unless dealing with highly complex, non-utility styles (e.g., complex animations, third-party library overrides).
+    *   Use responsive modifiers (`sm:`, `md:`, `lg:`, `xl:`) for building responsive layouts. Adopt a mobile-first approach (base styles are mobile, modifiers override for larger screens).
+    *   Use state modifiers (`hover:`, `focus:`, `active:`, `disabled:`, `group-hover:`, `peer-focus:`) for interactive styling.
+
+2.  **Configuration (`tailwind.config.ts`):**
+    *   MUST define custom colors, fonts, spacing, breakpoints, etc., within the `theme.extend` object in `tailwind.config.ts`. AVOID using arbitrary values directly in utility classes (e.g., prefer `text-primary` over `text-[#123456]`, `p-4` over `p-[16px]`).
+    *   Reference theme values within CSS using the `theme()` function if custom CSS is unavoidable.
+
+3.  **Class Management:**
+    *   Use utility libraries like `clsx` or `tailwind-merge` (provided via `shadcn/ui`'s `cn` utility) for conditionally applying classes. MUST use the `cn` utility when working with `shadcn/ui` components.
+    *   Order classes logically (e.g., layout, spacing, typography, background, borders) for better readability, although Prettier plugins can automate this.
+
+4.  **Avoiding Anti-Patterns:**
+    *   AVOID excessive use of `@apply`. Use it sparingly, primarily for extracting *very common, complex sets* of utilities applied to the *same semantic element* repeatedly, or for base styles on elements like `body` or `button` in `globals.css`. Prefer component composition or direct utility application.
+    *   AVOID creating overly specific custom classes that just replicate a few utility classes.
+
+5.  **Performance:**
+    *   Rely on Next.js's build process to automatically purge unused Tailwind classes. Ensure the `content` array in `tailwind.config.ts` correctly points to all files containing Tailwind classes (`src/**/*.{ts,tsx}`).

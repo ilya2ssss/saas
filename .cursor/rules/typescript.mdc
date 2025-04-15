@@ -1,0 +1,49 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+**Objective:** Ensure generated TypeScript code is strongly typed, maintainable, and leverages TypeScript features effectively to improve code quality and developer experience.
+
+**Core Principles:**
+
+*   **Type Safety First:** Prioritize strong typing. AVOID using `any` unless absolutely necessary and justified.
+*   **Clarity and Explicitness:** Types should make the code easier to understand and reason about.
+*   **Consistency:** Follow consistent conventions for defining types, interfaces, and enums.
+
+**Rules:**
+
+1.  **Typing Fundamentals:**
+    *   MUST provide explicit types for function parameters, return values, and variable declarations where type inference is not sufficient or clear.
+    *   AVOID `any`. Use `unknown` when the type is truly unknown and perform type checking before use. Use specific types whenever possible.
+    *   Use `Interface` for defining the shape of objects, classes, and API contracts. Prefer `interface` over `type` for these use cases due to better extensibility (declaration merging).
+    *   Use `Type` aliases for defining unions, intersections, tuples, primitive aliases, or more complex types not easily represented by interfaces.
+    *   Utilize utility types (`Partial`, `Required`, `Readonly`, `Pick`, `Omit`, `Record<K, T>`, etc.) to create new types based on existing ones efficiently.
+    *   Use `Readonly` or `readonly` modifiers for immutable data structures where applicable (props, state).
+
+2.  **Functions:**
+    *   MUST type function parameters and return types.
+    *   Use `void` for functions that do not return a value.
+    *   Define function signatures using types or interfaces for callbacks or function props.
+
+3.  **Enums and Unions:**
+    *   Prefer String Literal Unions (e.g., `type Status = 'pending' | 'active' | 'inactive';`) over numeric or string `enum`s for clearer usage and easier debugging, unless numeric values or specific enum features are required.
+    *   If using `enum`, prefer `const enum` where possible for better performance (inlines values), but be aware of its limitations (cannot be accessed at runtime).
+
+4.  **Generics:**
+    *   Use generics (`<T>`) to create reusable components, functions, and types that can work with different data types while maintaining type safety (e.g., `function identity<T>(arg: T): T`).
+    *   Provide constraints on generics (`<T extends SomeType>`) when necessary.
+
+5.  **Modules & Namespaces:**
+    *   MUST use ES Modules (`import`/`export`). AVOID using `namespace` unless integrating with older JavaScript libraries that use them.
+    *   Define clear module boundaries with explicit exports. Type definitions specific to a module should ideally be co-located or placed in a `.types.ts` file within the module.
+
+6.  **Error Handling:**
+    *   Define custom error classes extending `Error` for specific error scenarios to allow for more granular `catch` block handling.
+    *   Use type guards (`value is Type`) or type assertions (`as Type`) cautiously. Prefer type guards for safer type narrowing.
+
+7.  **Integration with React:**
+    *   Use `React.FC<Props>` or `(props: Props) => JSX.Element` for typing functional components. `React.FC` provides implicit `children`, which might not always be desired. Be explicit with `children?: React.ReactNode` if needed.
+    *   Type `useState` hooks: `useState<string | null>(null)`.
+    *   Type `useRef` hooks: `useRef<HTMLInputElement>(null)`.
+    *   Type event handlers: `React.MouseEvent<HTMLButtonElement>`.

@@ -1,0 +1,41 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+**Objective:** Ensure generated code correctly utilizes shadcn/ui components, follows its composition patterns, and maintains consistency with the project's UI design system.
+
+**Core Principles:**
+
+*   **Composition:** Build UI by composing `shadcn/ui` components together.
+*   **Ownership:** Remember `shadcn/ui` components are copied into `/components/ui` – they are *your* code and can be customized directly.
+*   **Accessibility:** Leverage the underlying Radix UI primitives for accessibility.
+
+**Rules:**
+
+1.  **Component Usage:**
+    *   MUST add components using the `shadcn-ui` CLI: `npx shadcn-ui@latest add [component-name]`.
+    *   Import components directly from the project's alias path (e.g., `import { Button } from "@/components/ui/button";`).
+    *   Utilize the provided component APIs and props as documented.
+    *   Leverage component composition for building complex UI elements (e.g., combining `Card`, `CardHeader`, `CardTitle`, `CardContent`).
+
+2.  **Styling & Customization:**
+    *   Apply styling primarily through Tailwind utility classes passed via the `className` prop.
+    *   Use the `cn` utility function (imported from `@/lib/utils`) for merging default component classes with custom Tailwind classes: `className={cn("base-styles", props.className, "custom-utility")}`.
+    *   For significant structural or behavioral changes, modify the component code directly within the `/components/ui` directory. AVOID excessive prop overrides for fundamental style changes.
+    *   If creating variations of a `shadcn/ui` component, consider creating a new wrapper component in your main `/components` directory that imports and customizes the base `ui` component.
+
+3.  **Forms:**
+    *   When using Form components (`Form`, `FormField`, `FormItem`, etc.), MUST integrate with `react-hook-form` and `zod` for validation and state management as intended by the library.
+
+4.  **Data Display:**
+    *   Utilize `Table` components for structured tabular data.
+    *   Use `Card` components for grouping related information or displaying summaries.
+    *   Use `Badge` for status indicators, tags, or categories.
+
+5.  **Accessibility:**
+    *   Ensure interactive elements (`Button`, `Select`, `Checkbox`, etc.) have appropriate labels (`aria-label`, `aria-labelledby`) if the visual text is insufficient.
+    *   Use components semantically (e.g., use `Button` for actions, not links styled as buttons).
+
+6.  **Modularity:**
+    *   Create feature-specific components (e.g., `PropertyCard`, `OwnerSelector`) by composing `shadcn/ui` primitives within your feature folders (`/app/(features)/feature/_components`).

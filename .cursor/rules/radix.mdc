@@ -1,0 +1,29 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+**Objective:** Ensure awareness of the underlying Radix UI primitives used by shadcn/ui, particularly regarding accessibility and controlled state patterns when customization is needed.
+
+**Core Principles:**
+
+*   **Foundation:** Understand that `shadcn/ui` components are built upon Radix UI primitives.
+*   **Accessibility:** Radix provides the core accessibility features (keyboard navigation, ARIA attributes).
+*   **Headless Logic:** Radix provides the behavior and state management, decoupled from styling.
+
+**Rules:**
+
+1.  **Primary Interaction:**
+    *   MUST primarily interact with UI elements via the styled `shadcn/ui` components (`@/components/ui`).
+    *   AVOID directly importing and using Radix primitives unless `shadcn/ui` does not offer the required component or level of control for a specific, complex use case.
+
+2.  **Customization Context:**
+    *   When customizing a `shadcn/ui` component (`/components/ui/[component].tsx`), be aware of the underlying Radix primitive being used (e.g., `DropdownMenu` uses `RadixDropdownMenu.Root`, `RadixDropdownMenu.Trigger`, etc.).
+    *   Refer to Radix UI documentation if needing to understand the low-level props or behavior of the primitive during advanced customization.
+
+3.  **Controlled Components:**
+    *   Recognize that Radix primitives often support controlled state patterns (e.g., managing the `open` state of a `Dialog` or `DropdownMenu` from outside). Use these patterns when needing fine-grained control over component behavior, passing state and handlers (e.g., `open`, `onOpenChange`) to the corresponding `shadcn/ui` component if it exposes them.
+
+4.  **Accessibility:**
+    *   Rely on the built-in accessibility of Radix primitives.
+    *   When composing or customizing, ensure necessary ARIA attributes and label associations are maintained or correctly added according to WAI-ARIA practices, especially if deviating significantly from standard patterns.

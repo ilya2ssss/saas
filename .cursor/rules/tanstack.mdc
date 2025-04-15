@@ -1,0 +1,55 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+**Objective:** Ensure generated code uses TanStack Query effectively for server state management, caching, and background updates, following best practices for query keys, mutations, and error handling.
+
+**Core Principles:**
+
+*   **Server State Authority:** TanStack Query MUST be the primary tool for managing asynchronous server state (data fetching, caching, synchronization). AVOID using `useEffect` + `useState` or Zustand for this purpose.
+*   **Declarative Fetching:** Define data requirements declaratively using `useQuery`.
+*   **Cache First:** Leverage the cache effectively to improve perceived performance and reduce network requests.
+
+**Rules:**
+
+1.  **Query Keys:**
+    *   MUST use descriptive and structured query keys, typically arrays.
+    *   Include variables or identifiers that influence the query result in the key.
+    *   Example: `useQuery({ queryKey: ['properties', { ownerId, status }], queryFn: ... })`
+    *   Consistency in query keys is crucial for caching and invalidation.
+
+2.  **`useQuery` Usage:**
+    *   Use `useQuery` for fetching data that needs to be cached and potentially refetched.
+    *   Provide a `queryKey` and a `queryFn` (an async function that returns the data).
+    *   MUST handle loading (`isLoading`, `isFetching`) and error (`isError`, `error`) states returned by the hook to provide appropriate UI feedback.
+    *   Utilize the `enabled` option to conditionally trigger queries: `enabled: !!userId`.
+    *   Configure `staleTime` (how long data is considered fresh) and `cacheTime` (how long inactive data remains in cache) appropriately based on data volatility. Default values are often sensible to start.
+
+3.  **`useMutation` Usage:**
+    *   Use `useMutation` for creating, updating, or deleting data.
+    *   Provide a `mutationFn` (an async function performing the mutation).
+    *   MUST implement `onSuccess`, `onError`, or `onSettled` callbacks within `useMutation` options or use the promise returned by `mutate`/`mutateAsync` to handle side effects like:
+        *   **Query Invalidation:** Use `queryClient.invalidateQueries({ queryKey: [...] })` to mark related data as stale, triggering refetches. Be specific with invalidation keys.
+        *   Showing notifications (success/error messages).
+        *   Redirecting the user.
+    *   Consider using optimistic updates (`onMutate`, `onError` rollback, `onSettled` invalidation) for a snappier UI experience, but implement carefully.
+
+4.  **Query Client (`QueryClient`):**
+    *   Instantiate `QueryClient` typically once at the application root.
+    *   Wrap the application in `<QueryClientProvider client={queryClient}>`.
+    *   Configure global defaults for queries/mutations via `new QueryClient({ defaultOptions: { ... } })` if needed.
+    *   Access the `queryClient` instance via `useQueryClient()` within components or hooks for manual cache interaction or invalidation.
+
+5.  **Custom Hooks:**
+    *   Encapsulate `useQuery` and `useMutation` logic within custom hooks for better reusability and separation of concerns (e.g., `useFetchProperties(filters)`, `useUpdateProperty()`). Co-locate these hooks with the features they serve.
+
+6.  **Error Handling:**
+    *   Check `isError` and `error` from hook results.
+    *   Use `onError` callbacks in `useMutation`.
+    *   Consider implementing a global error handler using `queryClient.setDefaultOptions({ queries: { onError: globalErrorHandler } })` or React Error Boundaries for catching query/mutation errors that are not handled locally.
+
+7.  **Data Transformation:**
+    *   Use the `select` option in `useQuery` to transform or select a portion of the fetched data before it's returned, optimizing re-renders if only part of the data is needed.
+
+8.  **AVOID Storing Server State Elsewhere:** DO NOT manually store data fetched by TanStack Query in component state (`useState`) or global state managers (Zustand). Rely on TanStack Query's cache as the single source of truth for server state.

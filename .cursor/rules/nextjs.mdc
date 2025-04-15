@@ -1,0 +1,58 @@
+---
+description: 
+globs: **/*.tsx,**/*.ts
+alwaysApply: false
+---
+**Objective:** Ensure generated Next.js code follows App Router best practices, prioritizes performance, security, and aligns with a modular monolith structure.
+
+**Core Principles:**
+
+*   **App Router First:** All new pages, layouts, and API routes MUST utilize the App Router (`/app` directory). Avoid the Pages Router (`/pages`) unless specifically required for edge cases not yet supported by App Router.
+*   **File-Based Routing Conventions:** Strictly adhere to Next.js file conventions (`page.tsx`, `layout.tsx`, `loading.tsx`, `error.tsx`, `template.tsx`, `route.ts` for API routes).
+*   **Server/Client Component Distinction:**
+    *   Default to Server Components for data fetching, accessing backend resources, and non-interactive UI.
+    *   Use Client Components (`'use client'`) *only* when necessary for interactivity (event handlers, state hooks, lifecycle effects, browser APIs). Keep Client Components as small as possible ("move client components to the leaves").
+*   **Modularity:** Group related routes, components, and logic using Route Groups `(folderName)` or private folders `_folderName` within the `/app` directory to represent features or domains.
+
+**Rules:**
+
+1.  **Routing & Layouts:**
+    *   MUST use `<Link href="...">` for internal navigation to leverage client-side routing. AVOID using `<a>` tags for internal links.
+    *   Utilize `layout.tsx` for shared UI structures across routes. Define root layout in `app/layout.tsx`.
+    *   Leverage nested layouts for section-specific UI.
+    *   Employ Route Groups `(group)` to organize routes without affecting the URL path (e.g., `(marketing)/about/page.tsx`).
+    *   Use `loading.tsx` with Suspense boundaries for meaningful loading states during navigation or data fetching.
+    *   Implement `error.tsx` files to handle runtime errors gracefully within route segments and provide recovery options.
+
+2.  **Data Fetching:**
+    *   Prefer fetching data in Server Components using `async/await` directly.
+    *   For client-side data fetching or mutations, MUST use TanStack Query (React Query) hooks (see `tanstack-query.mdc`).
+    *   Leverage Next.js caching and revalidation options (`fetch` options, `revalidatePath`, `revalidateTag`) for data freshness control in Server Components.
+
+3.  **Rendering & Performance:**
+    *   Utilize Server Components by default to minimize client-side JavaScript bundle size.
+    *   Employ `next/image` for automatic image optimization (resizing, format conversion, lazy loading). MUST provide `width` and `height` props.
+    *   Use `next/font` for font optimization (self-hosting, eliminating layout shifts).
+    *   Use `next/dynamic` for dynamically importing components or libraries, especially large ones, only when needed (typically within Client Components).
+
+4.  **API Routes (`route.ts`):**
+    *   Define API endpoints within the `/app` directory using `route.ts` files.
+    *   MUST validate incoming request bodies and parameters. Use libraries like Zod for validation.
+    *   Implement proper error handling and return meaningful HTTP status codes and JSON responses.
+    *   Protect sensitive endpoints with appropriate authentication and authorization checks.
+
+5.  **Security:**
+    *   NEVER expose sensitive keys or secrets directly in client-side code. Use environment variables (`process.env`).
+    *   Prefix environment variables intended for browser exposure with `NEXT_PUBLIC_`.
+    *   Sanitize user inputs on API routes to prevent XSS attacks.
+    *   Implement CSRF protection if using traditional form submissions or handling state-changing GET requests (less common with API routes and client-side fetches).
+
+6.  **Modular Monolith Structure:**
+    *   Organize features within route groups or folders in `/app`. Example: `app/(features)/properties/[propertyId]/page.tsx`.
+    *   Co-locate components, hooks, types, and utilities specific to a feature within that feature's folder structure (e.g., `app/(features)/properties/_components/PropertyList.tsx`).
+    *   Shared components/utilities should reside in top-level directories like `/components`, `/lib`, `/hooks`, `/stores`.
+
+7.  **Error Handling & Logging:**
+    *   Utilize `error.tsx` for catching segment-level errors.
+    *   Implement `try...catch` blocks in Server Component data fetching and API routes.
+    *   Integrate with a logging service for capturing errors and monitoring application health (can be configured in layouts or middleware).
