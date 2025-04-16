@@ -2,8 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
+import { cookies } from "next/headers";
 
 const inter = Inter({
     variable: "--font-inter-sans",
@@ -20,11 +23,14 @@ export const metadata: Metadata = {
     category: "technology",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
+    const cookieStore = await cookies();
+    const defaultOpen = cookieStore.get("sidebar_state")?.value === "true";
+
     return (
         <html lang="en" suppressHydrationWarning>
             <body
@@ -33,9 +39,18 @@ export default function RootLayout({
                     inter.variable
                 )}
             >
-                <SidebarProvider>
+                <SidebarProvider defaultOpen={defaultOpen}>
                     <AppSidebar />
                     <SidebarInset>
+                        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+                            <div className="flex items-center gap-2 px-4">
+                                <SidebarTrigger className="-ml-1" />
+                                <Separator
+                                    orientation="vertical"
+                                    className="mr-2 h-4"
+                                />
+                            </div>
+                        </header>
                         <main>{children}</main>
                     </SidebarInset>
                 </SidebarProvider>

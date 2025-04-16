@@ -1,135 +1,167 @@
+"use client";
+
+import * as React from "react";
+
 import {
-    Briefcase,
-    Building,
-    DoorOpen,
-    FileText,
-    LayoutDashboard,
-    Settings,
-    Users,
+    AudioWaveform,
+    Command,
+    GalleryVerticalEnd,
+    KeyRound,
+    Landmark,
+    LifeBuoy,
+    Send,
+    Settings2,
+    UsersRound,
 } from "lucide-react";
+
 import {
     Sidebar,
     SidebarContent,
     SidebarFooter,
-    SidebarGroupContent,
-    SidebarGroupLabel,
     SidebarHeader,
-    SidebarMenu,
-    SidebarMenuButton,
-    SidebarMenuItem,
+    SidebarRail,
 } from "../ui/sidebar";
+import { ClientSwitcher } from "./client-switcher";
+import { NavMain } from "./nav-main";
+import { NavUser } from "./nav-user";
+import { NavSecondary } from "./nav-secondary";
 
-const dashboardItem = {
-    title: "Dashboard",
-    url: "/dashboard",
-    icon: LayoutDashboard,
-};
-
-const portfolioGroup = {
-    title: "Portfolio",
-    items: [
+const data = {
+    user: {
+        name: "ilya2s",
+        email: "ilya2s@example.com",
+        avatar: "/avatars/ilya2s.jpg",
+    },
+    clients: [
         {
-            title: "Properties",
-            url: "properties",
-            icon: Building,
+            name: "Acme Inc",
+            logo: GalleryVerticalEnd,
+            type: "Company",
         },
         {
-            title: "Units",
-            url: "units",
-            icon: DoorOpen,
+            name: "Jhon Doe",
+            logo: AudioWaveform,
+            type: "Person",
+        },
+        {
+            name: "Evil Corp.",
+            logo: Command,
+            type: "Company",
+        },
+    ],
+    navMain: [
+        {
+            title: "Portfolio",
+            url: "#",
+            icon: Landmark,
+            isAcive: true,
+            items: [
+                {
+                    title: "Properties",
+                    url: "/properties",
+                },
+                {
+                    title: "Units",
+                    url: "/units",
+                },
+            ],
+        },
+        {
+            title: "Leasing",
+            url: "#",
+            icon: KeyRound,
+            items: [
+                {
+                    title: "Applications",
+                    url: "/applications",
+                },
+                {
+                    title: "Screenings",
+                    url: "/screenings",
+                },
+                {
+                    title: "Listings",
+                    url: "/listings",
+                },
+                {
+                    title: "Leases",
+                    url: "/leases",
+                },
+            ],
+        },
+        {
+            title: "People",
+            url: "#",
+            icon: UsersRound,
+            items: [
+                {
+                    title: "Landlords",
+                    url: "/landlords",
+                },
+                {
+                    title: "Tenants",
+                    url: "/tenants",
+                },
+                {
+                    title: "Service Pros",
+                    url: "/service-pros",
+                },
+            ],
+        },
+        {
+            title: "Settings",
+            url: "#",
+            icon: Settings2,
+            items: [
+                {
+                    title: "General",
+                    url: "#",
+                },
+                {
+                    title: "Team",
+                    url: "#",
+                },
+                {
+                    title: "Billing",
+                    url: "#",
+                },
+                {
+                    title: "Limits",
+                    url: "#",
+                },
+            ],
+        },
+    ],
+    navSecondary: [
+        {
+            title: "Support",
+            url: "#",
+            icon: LifeBuoy,
+        },
+        {
+            title: "Feedback",
+            url: "#",
+            icon: Send,
         },
     ],
 };
 
-const peopleGroup = {
-    title: "People",
-    items: [
-        {
-            title: "Owners",
-            url: "/owners",
-            icon: Briefcase,
-        },
-        {
-            title: "Tenants",
-            url: "tenants",
-            icon: Users,
-        },
-    ],
-};
-
-const leasingGroup = {
-    title: "Leasing",
-    items: [
-        {
-            title: "Leases",
-            url: "leases",
-            icon: FileText,
-        },
-    ],
-};
-
-const sidebarGroups = [portfolioGroup, peopleGroup, leasingGroup];
-
-export function AppSidebar() {
+export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar variant="inset">
+        <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
-                <SidebarMenu>
-                    <SidebarMenuItem key="Cora AI">
-                        <SidebarMenuButton asChild>
-                            <span className="font-bold text-lg tracking-tight">
-                                LOGO PLACEHOLDER
-                            </span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+                <ClientSwitcher clients={data.clients} />
             </SidebarHeader>
 
             <SidebarContent>
-                {/* Dashboard */}
-                <SidebarMenu>
-                    <SidebarMenuItem key={dashboardItem.title}>
-                        <SidebarMenuButton asChild>
-                            <a href={dashboardItem.url}>
-                                <dashboardItem.icon />
-                                <span>{dashboardItem.title}</span>
-                            </a>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-
-                {/* Grouped Items */}
-                {sidebarGroups.map((group) => (
-                    <SidebarMenu key={group.title}>
-                        <SidebarGroupLabel>{group.title}</SidebarGroupLabel>
-                        <SidebarGroupContent>
-                            {group.items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
-                            ))}
-                        </SidebarGroupContent>
-                    </SidebarMenu>
-                ))}
+                <NavMain items={data.navMain} />
+                <NavSecondary items={data.navSecondary} className="mt-auto" />
             </SidebarContent>
 
             <SidebarFooter>
-                <SidebarMenu>
-                    <SidebarMenuItem key="Settings">
-                        <SidebarMenuButton asChild>
-                            <a href="/settings">
-                                <Settings />
-                                <span>Settings</span>
-                            </a>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
+                <NavUser user={data.user} />
             </SidebarFooter>
+            <SidebarRail />
         </Sidebar>
     );
 }
