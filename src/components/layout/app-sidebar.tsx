@@ -8,6 +8,7 @@ import {
     GalleryVerticalEnd,
     KeyRound,
     Landmark,
+    LayoutDashboard,
     LifeBuoy,
     Send,
     Settings2,
@@ -50,6 +51,12 @@ const data = {
         },
     ],
     navMain: [
+        {
+            title: "Dashboard",
+            url: "/",
+            icon: LayoutDashboard,
+            isAcive: false,
+        },
         {
             title: "Portfolio",
             url: "#",
