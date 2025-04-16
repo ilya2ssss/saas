@@ -53,23 +53,22 @@ const data = {
     navMain: [
         {
             title: "Dashboard",
-            url: "/",
+            url: "#",
             icon: LayoutDashboard,
-            isAcive: false,
         },
         {
             title: "Portfolio",
             url: "#",
             icon: Landmark,
-            isAcive: true,
+            isActive: true,
             items: [
                 {
                     title: "Properties",
-                    url: "/properties",
+                    url: "#",
                 },
                 {
                     title: "Units",
-                    url: "/units",
+                    url: "#",
                 },
             ],
         },
@@ -80,19 +79,19 @@ const data = {
             items: [
                 {
                     title: "Applications",
-                    url: "/applications",
+                    url: "#",
                 },
                 {
                     title: "Screenings",
-                    url: "/screenings",
+                    url: "#",
                 },
                 {
                     title: "Listings",
-                    url: "/listings",
+                    url: "#",
                 },
                 {
                     title: "Leases",
-                    url: "/leases",
+                    url: "#",
                 },
             ],
         },
@@ -103,15 +102,15 @@ const data = {
             items: [
                 {
                     title: "Landlords",
-                    url: "/landlords",
+                    url: "#",
                 },
                 {
                     title: "Tenants",
-                    url: "/tenants",
+                    url: "#",
                 },
                 {
                     title: "Service Pros",
-                    url: "/service-pros",
+                    url: "#",
                 },
             ],
         },
