@@ -4,15 +4,24 @@ import * as React from "react";
 
 import {
     AudioWaveform,
+    Briefcase,
+    Building,
+    ClipboardList,
     Command,
+    DoorOpen,
+    FileText,
     GalleryVerticalEnd,
     KeyRound,
     Landmark,
     LayoutDashboard,
     LifeBuoy,
     Send,
+    Settings,
     Settings2,
+    Tags,
+    UserCheck,
     UsersRound,
+    Wrench,
 } from "lucide-react";
 
 import {
@@ -65,10 +74,12 @@ const data = {
                 {
                     title: "Properties",
                     url: "#",
+                    icon: Building,
                 },
                 {
                     title: "Units",
                     url: "#",
+                    icon: DoorOpen,
                 },
             ],
         },
@@ -80,18 +91,22 @@ const data = {
                 {
                     title: "Applications",
                     url: "#",
+                    icon: ClipboardList,
                 },
                 {
                     title: "Screenings",
                     url: "#",
+                    icon: UserCheck,
                 },
                 {
                     title: "Listings",
                     url: "#",
+                    icon: Tags,
                 },
                 {
                     title: "Leases",
                     url: "#",
+                    icon: FileText,
                 },
             ],
         },
@@ -101,44 +116,29 @@ const data = {
             icon: UsersRound,
             items: [
                 {
-                    title: "Landlords",
+                    title: "Owners",
                     url: "#",
+                    icon: Briefcase,
                 },
                 {
                     title: "Tenants",
                     url: "#",
+                    icon: UsersRound,
                 },
                 {
                     title: "Service Pros",
                     url: "#",
-                },
-            ],
-        },
-        {
-            title: "Settings",
-            url: "#",
-            icon: Settings2,
-            items: [
-                {
-                    title: "General",
-                    url: "#",
-                },
-                {
-                    title: "Team",
-                    url: "#",
-                },
-                {
-                    title: "Billing",
-                    url: "#",
-                },
-                {
-                    title: "Limits",
-                    url: "#",
+                    icon: Wrench,
                 },
             ],
         },
     ],
     navSecondary: [
+        {
+            title: "Settings",
+            url: "#",
+            icon: Settings,
+        },
         {
             title: "Support",
             url: "#",
