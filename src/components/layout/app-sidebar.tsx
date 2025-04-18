@@ -6,22 +6,15 @@ import {
     AudioWaveform,
     Briefcase,
     Building,
-    ClipboardList,
     Command,
     DoorOpen,
     FileText,
     GalleryVerticalEnd,
-    KeyRound,
-    Landmark,
     LayoutDashboard,
     LifeBuoy,
     Send,
     Settings,
-    Settings2,
-    Tags,
-    UserCheck,
     UsersRound,
-    Wrench,
 } from "lucide-react";
 
 import {
@@ -29,12 +22,11 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
-    SidebarRail,
-} from "../ui/sidebar";
-import { ClientSwitcher } from "./client-switcher";
-import { NavMain } from "./nav-main";
-import { NavUser } from "./nav-user";
-import { NavSecondary } from "./nav-secondary";
+} from "@/components/ui/sidebar";
+import { ClientSwitcher } from "@/components/layout/client-switcher";
+import { NavMain } from "@/components/layout/nav-main";
+import { NavUser } from "@/components/layout/nav-user";
+import { NavSecondary } from "@/components/layout/nav-secondary";
 
 const data = {
     user: {
@@ -62,91 +54,49 @@ const data = {
     navMain: [
         {
             title: "Dashboard",
-            url: "#",
+            url: "/dashboard",
             icon: LayoutDashboard,
         },
         {
-            title: "Portfolio",
-            url: "#",
-            icon: Landmark,
-            isActive: true,
-            items: [
-                {
-                    title: "Properties",
-                    url: "#",
-                    icon: Building,
-                },
-                {
-                    title: "Units",
-                    url: "#",
-                    icon: DoorOpen,
-                },
-            ],
+            title: "Properties",
+            url: "/",
+            icon: Building,
         },
         {
-            title: "Leasing",
-            url: "#",
-            icon: KeyRound,
-            items: [
-                {
-                    title: "Applications",
-                    url: "#",
-                    icon: ClipboardList,
-                },
-                {
-                    title: "Screenings",
-                    url: "#",
-                    icon: UserCheck,
-                },
-                {
-                    title: "Listings",
-                    url: "#",
-                    icon: Tags,
-                },
-                {
-                    title: "Leases",
-                    url: "#",
-                    icon: FileText,
-                },
-            ],
+            title: "Units",
+            url: "/",
+            icon: DoorOpen,
         },
         {
-            title: "People",
-            url: "#",
+            title: "Leases",
+            url: "/",
+            icon: FileText,
+        },
+        {
+            title: "Owners",
+            url: "/",
+            icon: Briefcase,
+        },
+        {
+            title: "Tenants",
+            url: "/",
             icon: UsersRound,
-            items: [
-                {
-                    title: "Owners",
-                    url: "#",
-                    icon: Briefcase,
-                },
-                {
-                    title: "Tenants",
-                    url: "#",
-                    icon: UsersRound,
-                },
-                {
-                    title: "Service Pros",
-                    url: "#",
-                    icon: Wrench,
-                },
-            ],
         },
     ],
     navSecondary: [
         {
             title: "Settings",
-            url: "#",
+            url: "/",
             icon: Settings,
         },
         {
             title: "Support",
-            url: "#",
+            url: "/",
             icon: LifeBuoy,
         },
         {
             title: "Feedback",
-            url: "#",
+            url: "/",
             icon: Send,
         },
     ],
@@ -154,7 +104,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar collapsible="icon" {...props}>
+        <Sidebar collapsible="offcanvas" {...props}>
             <SidebarHeader>
                 <ClientSwitcher clients={data.clients} />
             </SidebarHeader>
@@ -167,7 +117,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarFooter>
                 <NavUser user={data.user} />
             </SidebarFooter>
-            <SidebarRail />
         </Sidebar>
     );
 }

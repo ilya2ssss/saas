@@ -2,14 +2,10 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import {
-    SidebarInset,
-    SidebarProvider,
-    SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/layout/app-sidebar";
-import { Separator } from "@/components/ui/separator";
 import { cookies } from "next/headers";
+import { AppHeader } from "@/components/layout/app-header";
 
 const inter = Inter({
     variable: "--font-inter-sans",
@@ -43,17 +39,9 @@ export default async function RootLayout({
                 )}
             >
                 <SidebarProvider defaultOpen={defaultOpen}>
-                    <AppSidebar />
+                    <AppSidebar variant="inset" />
                     <SidebarInset>
-                        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                            <div className="flex items-center gap-2 px-4">
-                                <SidebarTrigger className="-ml-1" />
-                                <Separator
-                                    orientation="vertical"
-                                    className="mr-2 h-4"
-                                />
-                            </div>
-                        </header>
+                        <AppHeader />
                         <main>{children}</main>
                     </SidebarInset>
                 </SidebarProvider>
