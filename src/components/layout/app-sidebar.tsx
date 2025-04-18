@@ -6,15 +6,21 @@ import {
     AudioWaveform,
     Briefcase,
     Building,
+    Clipboard,
     Command,
     DoorOpen,
     FileText,
     GalleryVerticalEnd,
+    KeyRound,
+    Landmark,
     LayoutDashboard,
     LifeBuoy,
     Send,
     Settings,
+    Tags,
+    UserCheck,
     UsersRound,
+    Wrench,
 } from "lucide-react";
 
 import {
@@ -22,6 +28,7 @@ import {
     SidebarContent,
     SidebarFooter,
     SidebarHeader,
+    SidebarRail,
 } from "@/components/ui/sidebar";
 import { ClientSwitcher } from "@/components/layout/client-switcher";
 import { NavMain } from "@/components/layout/nav-main";
@@ -58,29 +65,71 @@ const data = {
             icon: LayoutDashboard,
         },
         {
-            title: "Properties",
-            url: "/",
-            icon: Building,
+            title: "Portfolio",
+            url: "#",
+            icon: Landmark,
+            isActive: true,
+            items: [
+                {
+                    title: "Properties",
+                    url: "#",
+                    icon: Building,
+                },
+                {
+                    title: "Units",
+                    url: "#",
+                    icon: DoorOpen,
+                },
+            ],
         },
         {
-            title: "Units",
-            url: "/",
-            icon: DoorOpen,
+            title: "Leasing",
+            url: "#",
+            icon: KeyRound,
+            items: [
+                {
+                    title: "Applications",
+                    url: "#",
+                    icon: Clipboard,
+                },
+                {
+                    title: "Screenings",
+                    url: "#",
+                    icon: UserCheck,
+                },
+                {
+                    title: "Listings",
+                    url: "#",
+                    icon: Tags,
+                },
+                {
+                    title: "Leases",
+                    url: "#",
+                    icon: FileText,
+                },
+            ],
         },
         {
-            title: "Leases",
-            url: "/",
-            icon: FileText,
-        },
-        {
-            title: "Owners",
-            url: "/",
-            icon: Briefcase,
-        },
-        {
-            title: "Tenants",
-            url: "/",
+            title: "People",
+            url: "#",
             icon: UsersRound,
+            items: [
+                {
+                    title: "Owners",
+                    url: "#",
+                    icon: Briefcase,
+                },
+                {
+                    title: "Tenants",
+                    url: "#",
+                    icon: UsersRound,
+                },
+                {
+                    title: "Service Pros",
+                    url: "#",
+                    icon: Wrench,
+                },
+            ],
         },
     ],
     navSecondary: [
@@ -104,7 +153,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return (
-        <Sidebar collapsible="offcanvas" {...props}>
+        <Sidebar collapsible="icon" {...props}>
             <SidebarHeader>
                 <ClientSwitcher clients={data.clients} />
             </SidebarHeader>
@@ -117,6 +166,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <SidebarFooter>
                 <NavUser user={data.user} />
             </SidebarFooter>
+            <SidebarRail />
         </Sidebar>
     );
 }

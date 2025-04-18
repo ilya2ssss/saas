@@ -39,7 +39,7 @@ export default async function RootLayout({
                 )}
             >
                 <SidebarProvider defaultOpen={defaultOpen}>
-                    <AppSidebar variant="inset" />
+                    <AppSidebar />
                     <SidebarInset>
                         <AppHeader />
                         <main>{children}</main>
